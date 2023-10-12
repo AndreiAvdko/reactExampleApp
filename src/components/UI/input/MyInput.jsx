@@ -1,10 +1,12 @@
 import React from "react";
 import classes from './MyInput.module.css';
 
-const MyInput = (props) => {
+// Оборачиваем компонент в функцию React.forwardRef()
+const MyInput = React.forwardRef((props, ref) => {
     return (
-        <input className={classes.myInput} {...props}/>
+        // Указываем в самом компоненте куда должна попадать ссылка
+        <input ref={ref} className={classes.myInput} {...props}/>
     );
-};
+});
 
 export default MyInput;

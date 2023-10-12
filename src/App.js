@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import PostList from "./components/PostList";
 import MyButton from "./components/UI/button/MyButton";
 import MyInput from "./components/UI/input/MyInput";
@@ -14,35 +14,55 @@ function App() {
   // Состояние поля ввода заголовка поста
   const [title, setTitle] = useState("Введённый по умолчанию текст вместо названия");
 
+  // C помощью этого хука можно получить доступ к DOM-элементу
+  // и у этого Dom-элемента забрать value
+  const bodyInputRef = useRef();
+
   const addNewPost = (e) => {
       // Предотвращает дефолтное поведение браузера - submit формы при нажатии на кнопку
       e.preventDefault();
       // Получаем данные из управляемого inputa
       console.log(title);
+      
+      // У ссылки bodyInputRef есть единственное поле current 
+      // И в нашем случае это и есть DOM-элемент у которого есть поле value
+      // и это поле можно получить
+      console.log(bodyInputRef.current.value)
   }
 
   return (
     <div className="App">
         <form>
             <MyInput 
-            value = {title}
-            onChange={event => setTitle(event.target.value)}
-            type="text" 
-            placeholder="Название текста"
+                value = {title}
+                onChange={event => setTitle(event.target.value)}
+                type="text" 
+                placeholder="Название текста"
             />
-            <MyInput type="text" placeholder="Описание поста"/>
 
-            {/*
-                По умолчанию React не знает в какое место компонента добавлять вложенные элементы
-                Для этого предназначен props.children
-                Добавляем его в класс MyButton 
+            {/* 
+                Указываем пропс ref и передаем в него созданную с помощью useRef() ссылку 
+                Пример с простым input
+                <input ref={bodyInputRef} type="text"/>
             */}
-            {/*
-                Теперь всё, что написано в атрибутах кнопки отправляется в пропсы и подставляется в MyButton
-                Например свойство disabled: <MyButton disabled>Создать пост</MyButton>     
+
+            {/* 
+                Из-за того, что компонент кастомный 
+                React по дефолту не знает куда именно
+                нужно передать ссылку bodyInputRef 
             */}
+            {/* 
+                Такой компонент называется неуправляемым или неконтролируемым 
+            */}
+
+                <MyInput 
+                    // Указываем пропс ref и передаем в него созданную с помощью useRef() ссылку
+                    ref = {bodyInputRef}
+                    type="text"
+                    placeholder="Описание поста"
+                />
+           
             <MyButton onClick = {addNewPost}>Создать пост</MyButton>
-            
         </form>
         <PostList posts={javascript_posts} title="Список постов Javascript"/> 
     </div>
