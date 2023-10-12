@@ -1,19 +1,14 @@
 import React, { useState } from "react";
-import Counter from "./components/Counter";
-import ClassCounter from "./components/ClassCounter";
+import PostItem from "./components/PostItem";
 
 function App() {
 
-  const [value, setValue] = useState("Text in input"); 
-
   return (
     <div className="App">
-      {/* Подключение созданного компонента-функции */}
-      <Counter/>
-      <ClassCounter/>
+        {/* Cоздаем компонент и передаём внутрь него пропс */}
+        <PostItem post={{id: 1, title: 'Javasript', body: 'Description'}}/>
     </div>
-  );
-  
+  ); 
 }
 
 export default App;
