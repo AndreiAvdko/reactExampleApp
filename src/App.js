@@ -11,38 +11,38 @@ function App() {
       {id: 3, title: "Javascript 3", body: "Description"},
   ])
 
-  // Состояние поля ввода заголовка поста
-  const [title, setTitle] = useState("Введённый по умолчанию текст вместо названия");
-  // Состояние поля ввода описания поста
-  const [body, setBody] = useState("Введённый по умолчанию текст описания");
-
+  // В качестве значений используем объект post и его поля
+  const [post, setPost] = useState({
+                                      title:'', 
+                                      body:''
+                                    });
+  
   const addNewPost = (e) => {
       e.preventDefault();
       
-      const newPost = {
-        id: Date.now(),
-        title,
-        body
-      }
       // Передаем старый массив и добавляем новый пост
-      setPosts_javasript([...javascript_posts, newPost]);
+      // разворачивая информацию из поста и добавляя id
+      setPosts_javasript([...javascript_posts, {...post, id: Date.now()}]);
+      
       // Очищаем input после добавления поста
-      setTitle('');
-      setBody('');
+      setPost({
+        title: '',
+        body: ''
+      });
   }
 
   return (
     <div className="App">
         <form>
             <MyInput 
-                value = {title}
-                onChange={event => setTitle(event.target.value)}
+                value = {post.title}
+                onChange={e => setPost({ ...post, title: e.target.value })}
                 type="text" 
                 placeholder="Название текста"
             />
             <MyInput 
-                  value = {body}
-                  onChange={event => setBody(event.target.value)}
+                  value = {post.body}
+                  onChange={e => setPost({...post, body: e.target.value })}
                   type="text"
                   placeholder="Описание поста"
             />
