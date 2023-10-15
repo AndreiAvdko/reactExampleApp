@@ -13,21 +13,22 @@ function App() {
 
   // Состояние поля ввода заголовка поста
   const [title, setTitle] = useState("Введённый по умолчанию текст вместо названия");
-
-  // C помощью этого хука можно получить доступ к DOM-элементу
-  // и у этого Dom-элемента забрать value
-  const bodyInputRef = useRef();
+  // Состояние поля ввода описания поста
+  const [body, setBody] = useState("Введённый по умолчанию текст описания");
 
   const addNewPost = (e) => {
-      // Предотвращает дефолтное поведение браузера - submit формы при нажатии на кнопку
       e.preventDefault();
-      // Получаем данные из управляемого inputa
-      console.log(title);
       
-      // У ссылки bodyInputRef есть единственное поле current 
-      // И в нашем случае это и есть DOM-элемент у которого есть поле value
-      // и это поле можно получить
-      console.log(bodyInputRef.current.value)
+      const newPost = {
+        id: Date.now(),
+        title,
+        body
+      }
+      // Передаем старый массив и добавляем новый пост
+      setPosts_javasript([...javascript_posts, newPost]);
+      // Очищаем input после добавления поста
+      setTitle('');
+      setBody('');
   }
 
   return (
@@ -39,28 +40,12 @@ function App() {
                 type="text" 
                 placeholder="Название текста"
             />
-
-            {/* 
-                Указываем пропс ref и передаем в него созданную с помощью useRef() ссылку 
-                Пример с простым input
-                <input ref={bodyInputRef} type="text"/>
-            */}
-
-            {/* 
-                Из-за того, что компонент кастомный 
-                React по дефолту не знает куда именно
-                нужно передать ссылку bodyInputRef 
-            */}
-            {/* 
-                Такой компонент называется неуправляемым или неконтролируемым 
-            */}
-
-                <MyInput 
-                    // Указываем пропс ref и передаем в него созданную с помощью useRef() ссылку
-                    ref = {bodyInputRef}
-                    type="text"
-                    placeholder="Описание поста"
-                />
+            <MyInput 
+                  value = {body}
+                  onChange={event => setBody(event.target.value)}
+                  type="text"
+                  placeholder="Описание поста"
+            />
            
             <MyButton onClick = {addNewPost}>Создать пост</MyButton>
         </form>

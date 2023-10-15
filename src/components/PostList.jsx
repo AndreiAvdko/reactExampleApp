@@ -18,8 +18,8 @@ const PostList = ({posts, title})=> {
                 Ключи позволяют компонентам реакта эффективнее рендерить произошедшие изменения
             */}
             
-            { posts.map( (post) => 
-                    <PostItem post={post} key={post.id}/>
+            { posts.map( (post, index) => 
+                    <PostItem number={index + 1} post={post} key={post.id}/>
             
             )}
         </div>
